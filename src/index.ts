@@ -1,11 +1,17 @@
-import express from 'express';
-import { connectDB } from './config/db.config';
-
+import express from "express";
+import { connectDB } from "./config/db.config";
+import helmet from "helmet";
+import cors from "cors";
+import corsOptions from "./config/cors.config";
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+//To secure header we use helmet
+app.use(helmet());
 
+// cors to restrict the request from different domain.
+app.use(cors(corsOptions));
 
 // Performance Middleware
 // app.use(compression()); // Compress response bodies
