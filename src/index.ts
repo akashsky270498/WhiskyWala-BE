@@ -3,6 +3,7 @@ import { connectDB } from "./config/db.config";
 import helmet from "helmet";
 import cors from "cors";
 import corsOptions from "./config/cors.config";
+import { apiLimiter, authLimiter } from "./middlewares/rateLimiter.middleware";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -12,6 +13,10 @@ app.use(helmet());
 
 // cors to restrict the request from different domain.
 app.use(cors(corsOptions));
+
+// rate limiter
+app.use(apiLimiter);
+// authRouter(authLimiter);
 
 // Performance Middleware
 // app.use(compression()); // Compress response bodies
