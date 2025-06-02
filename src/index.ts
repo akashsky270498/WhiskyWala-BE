@@ -2,7 +2,7 @@ import express from "express";
 import { connectDB } from "./config/db.config";
 import helmet from "helmet";
 import cors from "cors";
-import corsOptions from "./config/cors.config";
+import { corsOptions } from "./utils/corsOptions";
 import { apiLimiter, authLimiter } from "./middlewares/rateLimiter.middleware";
 
 const app = express();

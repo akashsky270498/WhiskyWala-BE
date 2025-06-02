@@ -1,7 +1,7 @@
-import {CorsOptions} from "cors";
-import {CORS_OPTIONS} from "./constants";
+import { CorsOptions } from "cors";
+import { CORS_OPTIONS } from "./constants";
 
-const corsOptions: CorsOptions = {
+export const corsOptions: CorsOptions = {
     //Allowed origins
     origin: process.env.ALLOWED_ORIGINS?.split(','),
 
@@ -22,4 +22,3 @@ const corsOptions: CorsOptions = {
 
 }
 
-export { corsOptions};
