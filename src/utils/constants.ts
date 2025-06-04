@@ -3,6 +3,8 @@ import { RateLimitConstants } from "./interfaces/rateLimitInterface";
 export const HTTP_STATUS_CODES = {
     FOUR_HUNDRED: 400,
     RATE_LIMIT: 429,
+    INTERNAL_SERVER_ERROR: 500,
+    UNEXPECTED_ERROR: 500
 }
 
 export const CORS_OPTIONS = {

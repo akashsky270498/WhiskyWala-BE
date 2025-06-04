@@ -1,24 +1,55 @@
-// import { Request, Response, NextFunction } from 'express';
-// import { ApiError } from '../utils/ApiError';
+import { Request, Response, NextFunction } from 'express';
+import { ApiError } from 'src/utils/ApiError';
+import { HTTP_STATUS_CODES } from 'src/utils/constants';
 
-// const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-//   let error = err;
+const errorHandler = (
+  err: unknown,
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Response => {
+  let error = err;
 
-//   // If error isn't an instance of ApiError, convert it
-//   if (!(error instanceof ApiError)) {
-//     const statusCode = error.statusCode || error instanceof Error ? 400 : 500;
-//     const message = error.message || 'Something went wrong';
-//     error = new ApiError(statusCode, message, error?.errors || [], error?.stack);
-//   }
+  if (!(error instanceof ApiError)) {
+    const isNativeError = (err: unknown): err is Error & { statusCode?: number; errors?: any[] } => {
+      return typeof err === 'object' && err !== null && 'message' in err;
+    };
 
-//   const response = {
-//     success: false,
-//     message: error.message,
-//     errors: error.errors,
-//     stack: process.env.NODE_ENV === 'development' ? error.stack : undefined,
-//   };
+    if (isNativeError(error)) {
+      const statusCode = typeof error.statusCode === 'number'
+        ? error.statusCode
+        : HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR;
 
-//   return res.status(error.statusCode).json(response);
-// };
+      const message = typeof error.message === 'string'
+        ? error.message
+        : HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR.toString();
 
-// export { errorHandler }; 
+      const errors = Array.isArray((error as any).errors)
+        ? (error as any).errors
+        : [];
+
+      const stack = error.stack || '';
+
+      const apiError = new ApiError(statusCode, message, errors);
+      apiError.stack = stack;
+      error = apiError;
+    } else {
+      error = new ApiError(
+        HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR,
+        HTTP_STATUS_CODES.UNEXPECTED_ERROR.toString()
+      );
+    }
+  }
+
+  const apiError = error as ApiError;
+
+  return res.status(apiError.statusCode).json({
+    success: apiError.success,
+    message: apiError.message,
+    errors: apiError.errors,
+    data: apiError.data,
+    stack: process.env.NODE_ENV === 'development' ? apiError.stack : undefined,
+  });
+};
+
+export { errorHandler };

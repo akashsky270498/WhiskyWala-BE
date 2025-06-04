@@ -1,6 +1,6 @@
 import rateLimit from "express-rate-limit";
-import { RATE_LIMIT_MESSAGES } from "src/utils/messages";
-import { HTTP_STATUS_CODES, RATE_LIMIT_CONSTANTS } from "src/utils/constants";
+import { RATE_LIMIT_MESSAGES } from "../utils/messages";
+import { HTTP_STATUS_CODES, RATE_LIMIT_CONSTANTS } from "../utils/constants";
 const createRateLimiter = (options: {
     windowMs: number,
     max: number,
