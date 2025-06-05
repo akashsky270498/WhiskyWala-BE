@@ -21,7 +21,7 @@ interface FailureResponseParams {
 }
 
 const RESPONSE = {
-    SuccessResponse: (res: Response, payload: SuccessResponseParams, status = 200) => {
+    SuccessResponse: (res: Response, status = 200, payload: SuccessResponseParams) => {
         return res.status(status).json({
             success: true,
             statusCode: status,
@@ -31,7 +31,7 @@ const RESPONSE = {
         })
     },
 
-    FailureResponse: (res: Response, payload: FailureResponseParams, status = 500) => {
+    FailureResponse: (res: Response, status = 500, payload: FailureResponseParams) => {
         return res.status(status).json({
             success: false,
             statusCode: status,

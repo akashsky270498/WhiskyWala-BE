@@ -2,6 +2,7 @@ import { RateLimitConstants } from "./interfaces/rateLimitInterface";
 
 export const HTTP_STATUS_CODES = {
     BAD_REQUEST: 400,
+    TIMEOUT: 408,
     RATE_LIMIT: 429,
     INTERNAL_SERVER_ERROR: 500,
     UNEXPECTED_ERROR: 500
