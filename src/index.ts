@@ -5,11 +5,11 @@ dotenv.config();
 import helmet from "helmet";
 import cors from "cors";
 import { corsOptions } from "./utils/corsOptions";
-import { apiLimiter, authLimiter } from "./middlewares/rateLimiter.middleware";
+import { apiLimiter } from "./middlewares/rateLimiter.middleware";
 import { errorHandler } from "./middlewares/error.middleware";
 import compression from "compression";
 import { staticFileConfig } from "./config/static.config";
-import { httpLogger, logger, getChildLogger } from "./utils/logger"
+import { httpLogger, logger } from "./utils/logger"
 import { env } from "./config/env.config";
 
 const app = express();
@@ -21,6 +21,20 @@ app.use(helmet());
 // cors to restrict the request from different domain.
 app.use(cors(corsOptions));
 
+//Body parser and data sanitization
+app.use(express.json({ limit: '16kb' }));
+app.use(express.urlencoded({ extended: true, limit: '16kb' }));
+
+//Serving static files
+app.use(express.static(staticFileConfig.path, staticFileConfig.options));
+
+//Compresssion and performance middleware
+app.use(compression());
+app.set('trust proxy', 1);
+
+//Add HTTP request login
+app.use(httpLogger);
+
 // rate limiter
 app.use(apiLimiter);
 // authRouter(authLimiter);
@@ -30,21 +44,6 @@ app.all('*', (req, res, next) => {
   next(new Error(`Can't find ${req.originalUrl} on this server.`))
 });
 
-
-//Body parser and data sanitization
-app.use(express.json({ limit: '16kb' }));
-app.use(express.urlencoded({ extended: true, limit: '16kb' }));
-
-//Compresssion and performance middleware
-app.use(compression());
-app.set('trust proxy', 1);
-// app.use(express.static('public')); // Serve static files
-
-//Serving static files
-app.use(express.static(staticFileConfig.path, staticFileConfig.options));
-
-//Add HTTP request login
-app.use(httpLogger);
 
 //Now we can use logger anywhere in the application [Testing]
 logger.info('Server is starting');
@@ -68,7 +67,7 @@ const startServer = async () => {
       console.log(`
 Server running successfully
  Port: ${env.PORT}
- Environment: ${env.NODE_ENV|| 'development'}
+ Environment: ${env.NODE_ENV || 'development'}
  Time: ${new Date().toLocaleString()}
       `);
     });
