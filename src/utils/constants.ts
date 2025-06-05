@@ -17,3 +17,12 @@ export const RATE_LIMIT_CONSTANTS: RateLimitConstants = {
     MAX_REQUESTS: 100,
     MAX_AUTH_REQUESTS: 5,
 };
+
+export const WINSTON_LOG_LEVELS = {
+    ZERO: 0,
+    ONE: 1,
+    TWO: 2,
+    THREE: 3,
+    FOUR: 4,
+
+}

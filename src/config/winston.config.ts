@@ -1,17 +1,19 @@
 import path from 'path';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
+import { WINSTON_LOG_LEVELS } from '../utils/constants';
+
 
 const logDir = path.resolve(__dirname, '../../logs');
 const isDev = process.env.NODE_ENV === 'development';
 const logLevel = isDev ? 'debug' : 'info';
 
 const levels = {
-    error: 0,
-    warn: 1,
-    info: 2,
-    http: 3,
-    debug: 4,
+    error: WINSTON_LOG_LEVELS.ZERO,
+    warn: WINSTON_LOG_LEVELS.ONE,
+    info: WINSTON_LOG_LEVELS.TWO,
+    http: WINSTON_LOG_LEVELS.THREE,
+    debug: WINSTON_LOG_LEVELS.FOUR,
 };
 
 const colors = {
