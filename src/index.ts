@@ -5,6 +5,8 @@ import cors from "cors";
 import { corsOptions } from "./utils/corsOptions";
 import { apiLimiter, authLimiter } from "./middlewares/rateLimiter.middleware";
 import { errorHandler } from "./middlewares/error.middleware";
+import compression from "compression";
+import { staticFileConfig } from "./config/static.config";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -29,9 +31,13 @@ app.all('*', (req, res, next) => {
 app.use(express.json({ limit: '16kb'}));
 app.use(express.urlencoded({ extended: true, limit: '16kb'}));
 
-// app.use(express.urlencoded({ extended: true, limit: '16kb' }));
+//Compresssion and performance middleware
+app.use(compression());
+app.set('trust proxy', 1);
 // app.use(express.static('public')); // Serve static files
 
+//Serving static files
+app.use(express.static(staticFileConfig.path, staticFileConfig.options));
 //Error handling middleware
 app.use(errorHandler)
 
