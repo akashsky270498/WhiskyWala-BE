@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '../utils/ApiError';
 import { HTTP_STATUS_CODES } from '../utils/constants';
-
+import { env } from "../config/env.config";
 const errorHandler = (
   err: unknown,
   req: Request,
@@ -48,7 +48,7 @@ const errorHandler = (
     message: apiError.message,
     errors: apiError.errors,
     data: apiError.data,
-    stack: process.env.NODE_ENV === 'development' ? apiError.stack : undefined,
+    stack: env.NODE_ENV === 'development' ? apiError.stack : undefined,
   });
 };
 

@@ -2,10 +2,10 @@ import path from 'path';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import { WINSTON_LOG_LEVELS } from '../utils/constants';
+import { env } from "./env.config";
 
-
+const isDev = env.NODE_ENV === 'development';
 const logDir = path.resolve(__dirname, '../../logs');
-const isDev = process.env.NODE_ENV === 'development';
 const logLevel = isDev ? 'debug' : 'info';
 
 const levels = {

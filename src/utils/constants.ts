@@ -25,5 +25,8 @@ export const WINSTON_LOG_LEVELS = {
     TWO: 2,
     THREE: 3,
     FOUR: 4,
+}
 
+export const DOT_ENV = {
+    DEFAULT_PORT: 3000
 }

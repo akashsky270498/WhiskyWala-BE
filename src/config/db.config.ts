@@ -1,8 +1,5 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
-
-// Load environment variables
-dotenv.config();
+import { env } from "./env.config";
 
 // MongoDB connection options
 const options: mongoose.ConnectOptions = {
@@ -11,15 +8,10 @@ const options: mongoose.ConnectOptions = {
   connectTimeoutMS: 10000,
 };
 
-// Validate and extract the Mongo URI
-const MONGODB_URI = process.env.MONGODB_URI;
-if (!MONGODB_URI) {
-  throw new Error("MONGODB_URI is not defined in environment variables.");
-}
 
 export const connectDB = async (): Promise<void> => {
   try {
-    const conn = await mongoose.connect(MONGODB_URI, options);
+    const conn = await mongoose.connect(env.MONGODB_URI, options);
 
     console.log(`MongoDB Connected Successfully!
 Database: ${conn.connection.name}

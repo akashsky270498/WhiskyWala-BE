@@ -1,10 +1,11 @@
 import path from "path";
 import { Response } from "express";
+import { env } from "../config/env.config";
 
 export const staticFileConfig = {
     path: path.resolve(__dirname, '../public'), //resolve is safer then join for absolute path
     options: {
-        maxAge: process.env.NODE_ENV === 'production' ? '1d' : 0, //cache statis files for 1 day in production
+        maxAge: env.NODE_ENV === 'production' ? '1d' : 0, //cache statis files for 1 day in production
         dotfiles: 'ignore', //prevent serving hidder files like .env
         etag: true,
         index: false, //prevent serving index.html automatically

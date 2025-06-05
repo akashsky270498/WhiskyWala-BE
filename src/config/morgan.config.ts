@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { logger } from '../utils/logger';
 import { HTTP_STATUS_CODES } from '../utils/constants'; // Make sure this contains `BAD_REQUEST = 400`
 
+
 morgan.token('reqId', (req: Request) => {
   const user = (req as any).user;
   return user?.id?.toString() || '-';

@@ -1,5 +1,7 @@
 import express from "express";
 import { connectDB } from "./config/db.config";
+import dotenv from "dotenv";
+dotenv.config();
 import helmet from "helmet";
 import cors from "cors";
 import { corsOptions } from "./utils/corsOptions";
@@ -8,9 +10,10 @@ import { errorHandler } from "./middlewares/error.middleware";
 import compression from "compression";
 import { staticFileConfig } from "./config/static.config";
 import { httpLogger, logger, getChildLogger } from "./utils/logger"
+import { env } from "./config/env.config";
 
 const app = express();
-const port = process.env.PORT || 3000;
+
 
 //To secure header we use helmet
 app.use(helmet());
@@ -61,11 +64,11 @@ const startServer = async () => {
     await connectDB();
 
     // Start Express server
-    app.listen(port, () => {
+    app.listen(env.PORT, () => {
       console.log(`
 Server running successfully
- Port: ${port}
- Environment: ${process.env.NODE_ENV || 'development'}
+ Port: ${env.PORT}
+ Environment: ${env.NODE_ENV|| 'development'}
  Time: ${new Date().toLocaleString()}
       `);
     });

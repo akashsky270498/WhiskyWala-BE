@@ -1,9 +1,10 @@
 import { CorsOptions } from "cors";
 import { CORS_OPTIONS } from "./constants";
+import { env } from "../config/env.config";
 
 export const corsOptions: CorsOptions = {
     //Allowed origins
-    origin: process.env.ALLOWED_ORIGINS?.split(','),
+    origin: env.ALLOWED_ORIGINS,
 
     //Allowed HTTP Methods
     methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
