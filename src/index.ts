@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 import { corsOptions } from "./utils/corsOptions";
 import { apiLimiter, authLimiter } from "./middlewares/rateLimiter.middleware";
+import { errorHandler } from "./middlewares/error.middleware";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -18,12 +19,21 @@ app.use(cors(corsOptions));
 app.use(apiLimiter);
 // authRouter(authLimiter);
 
-// Performance Middleware
-// app.use(compression()); // Compress response bodies
-// app.use(express.json({ limit: '16kb' }));
+//404 handler for unmatched routes
+app.all('*', (req, res, next) => {
+  next(new Error(`Can't find ${req.originalUrl} on this server.`))
+});
+
+
+//Body parser and data sanitization
+app.use(express.json({ limit: '16kb'}));
+app.use(express.urlencoded({ extended: true, limit: '16kb'}));
+
 // app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 // app.use(express.static('public')); // Serve static files
 
+//Error handling middleware
+app.use(errorHandler)
 
 // Start server
 const startServer = async () => {

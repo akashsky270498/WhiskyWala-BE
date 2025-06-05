@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
-import { ApiError } from 'src/utils/ApiError';
-import { HTTP_STATUS_CODES } from 'src/utils/constants';
+import { ApiError } from '../utils/ApiError';
+import { HTTP_STATUS_CODES } from '../utils/constants';
 
 const errorHandler = (
   err: unknown,
