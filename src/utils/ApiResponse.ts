@@ -13,7 +13,7 @@ export class ApiResponse <T = any> implements IApiResponse {
     message: string = 'Success'
   ) {
     this.statusCode = statusCode;
-    this.success = statusCode < HTTP_STATUS_CODES.FOUR_HUNDRED;
+    this.success = statusCode < HTTP_STATUS_CODES.BAD_REQUEST;
     this.message = message;
     this.data = data;
   }

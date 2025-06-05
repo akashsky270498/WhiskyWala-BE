@@ -7,6 +7,7 @@ import { apiLimiter, authLimiter } from "./middlewares/rateLimiter.middleware";
 import { errorHandler } from "./middlewares/error.middleware";
 import compression from "compression";
 import { staticFileConfig } from "./config/static.config";
+import { httpLogger, logger, getChildLogger } from "./utils/logger"
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -28,8 +29,8 @@ app.all('*', (req, res, next) => {
 
 
 //Body parser and data sanitization
-app.use(express.json({ limit: '16kb'}));
-app.use(express.urlencoded({ extended: true, limit: '16kb'}));
+app.use(express.json({ limit: '16kb' }));
+app.use(express.urlencoded({ extended: true, limit: '16kb' }));
 
 //Compresssion and performance middleware
 app.use(compression());
@@ -38,6 +39,18 @@ app.set('trust proxy', 1);
 
 //Serving static files
 app.use(express.static(staticFileConfig.path, staticFileConfig.options));
+
+//Add HTTP request login
+app.use(httpLogger);
+
+//Now we can use logger anywhere in the application [Testing]
+logger.info('Server is starting');
+logger.error('This is an error message');
+
+// Or create a context-specific logger:
+// const authLogger = getChildLogger('Auth');
+// authLogger.info('User logged in');
+
 //Error handling middleware
 app.use(errorHandler)
 
