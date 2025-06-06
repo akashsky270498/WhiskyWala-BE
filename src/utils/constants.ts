@@ -30,3 +30,8 @@ export const WINSTON_LOG_LEVELS = {
 export const DOT_ENV = {
     DEFAULT_PORT: 3000
 }
+
+export const POST_MODEL_CONSTANTS = {
+    MAX_COMMENT_LENGTH: 1000,
+    MAX_CAPTION_LENGTH: 2200
+}
