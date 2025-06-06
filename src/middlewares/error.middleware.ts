@@ -2,16 +2,27 @@ import { Request, Response, NextFunction } from 'express';
 import { ApiError } from '../utils/ApiError';
 import { HTTP_STATUS_CODES } from '../utils/constants';
 import { env } from "../config/env.config";
+
+// Define the FieldError type if it's not imported from elsewhere
+interface FieldError {
+  field: string;
+  message: string;
+  [key: string]: unknown;
+}
+
 const errorHandler = (
   err: unknown,
   req: Request,
   res: Response,
-  next: NextFunction
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  _next: NextFunction
 ): Response => {
   let error = err;
 
   if (!(error instanceof ApiError)) {
-    const isNativeError = (err: unknown): err is Error & { statusCode?: number; errors?: any[] } => {
+    const isNativeError = (
+      err: unknown
+    ): err is Error & { statusCode?: number; errors?: unknown[] } => {
       return typeof err === 'object' && err !== null && 'message' in err;
     };
 
@@ -24,8 +35,14 @@ const errorHandler = (
         ? error.message
         : HTTP_STATUS_CODES.INTERNAL_SERVER_ERROR.toString();
 
-      const errors = Array.isArray((error as any).errors)
-        ? (error as any).errors
+      // Type guard to ensure errors are properly typed
+      const errors: FieldError[] = Array.isArray(error.errors) 
+        ? error.errors.filter((err): err is FieldError => 
+            typeof err === 'object' && 
+            err !== null && 
+            'field' in err && 
+            'message' in err
+          )
         : [];
 
       const stack = error.stack || '';
