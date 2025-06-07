@@ -52,3 +52,22 @@ export async function generateResetPasswordToken(this: IUser): Promise<string> {
     return resetToken;
 }
 
+export function canViewProfileOf(this: IUser, targetUser: IUser): boolean {
+    if (!targetUser.isPrivate) return true;
+    return targetUser.followers.some( f => f.toString() === this._id.toString());
+}
+
+export async function toggleFollow(this: IUser, targetUser: IUser): Promise<void> {
+    const isFollowing = this.followings.some(f => f.toString() === targetUser._id.toString())
+
+    if (isFollowing) {
+        this.followings = this.followings.filter(f => f.toString() !== targetUser._id.toString());
+        targetUser.followers = targetUser.followers.filter(f => f.toString() !== this._id.toString());
+    } else {
+        this.followings.push(targetUser._id);
+        targetUser.followers.push(this._id);
+    }
+
+    await this.save();
+    await targetUser.save();
+}

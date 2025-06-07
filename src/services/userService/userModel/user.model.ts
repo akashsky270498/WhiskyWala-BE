@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { comparePassword, generateAccessTokenSync, generateResetPasswordToken } from "./user.methods";
+import { comparePassword, generateAccessTokenSync, generateResetPasswordToken, canViewProfileOf, toggleFollow } from "./user.methods";
 import userSchema from "./user.schema";
 import bcrypt from "bcrypt";
 
@@ -13,5 +13,18 @@ userSchema.pre("save", async function (next) {
 userSchema.methods.comparePassword = comparePassword;
 userSchema.methods.generateAccessTokenSync = generateAccessTokenSync;
 userSchema.methods.generateResetPasswordToken = generateResetPasswordToken;
+userSchema.methods.canViewProfileOf = canViewProfileOf;
+userSchema.methods.toggleFOllow = toggleFollow;
+
+//static method
+userSchema.statics.searchUsers = async function (query: string) {
+    return this.find({
+        $or: [
+            { username: new RegExp(query, "i") },
+            { name: new RegExp(query, "i") },
+        ],
+        isPrivate: false
+    }).select("name username avater");
+};
 
 export const UserModel = mongoose.model("User", userSchema);

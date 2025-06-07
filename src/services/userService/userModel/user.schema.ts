@@ -49,6 +49,22 @@ const userSchema = new Schema({
         trim: true
     },
 
+    isPrivate: {
+        type: Boolean,
+        default: false,
+        index: true
+    },
+
+    blockedUsers: [{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
+
+    blockedBy: [{
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    }],
+
     refreshToken: {
         type: String,
         select: false
