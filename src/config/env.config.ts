@@ -18,6 +18,14 @@ const envSchema = z.object({
     ALLOWED_ORIGINS: z.string().transform((value) => value === '*' ? ['*'] : value.split(',').map(origin => origin.trim())),
 
     API_PREFIX: z.string().startsWith('/').default('/api/v1'),
+
+    JWT_SECRET: z.string().min(1, "JWT_SECRET is required."),
+
+    JWT_EXPIRE: z.string().default("1d"),
+
+    REFRESH_TOKEN_SECRET: z.string().min(1, "JWT_SECRET is required."),
+
+    REFRESH_TOKEN_EXPIRE: z.string().default("30d"),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;

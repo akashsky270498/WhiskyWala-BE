@@ -1,80 +1,17 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
+import { comparePassword, generateAccessTokenSync, generateResetPasswordToken } from "./user.methods";
+import userSchema from "./user.schema";
+import bcrypt from "bcrypt";
 
-const userSchema = new Schema({
+userSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) return next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+});
 
-    name: {
-        type: String,
-        required: [true, "Name is required."],
-        trim: true,
-        index: true
-    },
+userSchema.methods.comparePassword = comparePassword;
+userSchema.methods.generateAccessTokenSync = generateAccessTokenSync;
+userSchema.methods.generateResetPasswordToken = generateResetPasswordToken;
 
-    email: {
-        type: String,
-        required: [true, "Email is required."],
-        trim: true,
-        lowercase: true,
-        unique: true
-    },
-
-    username: {
-        type: String,
-        required: [true, "Username is required."],
-        trim: true,
-        unique: true,
-        lowercase: true,
-        minlength: [3, "Username must be atleast 3 characters long."]
-    },
-
-    password: {
-        type: String,
-        required: [true, "Password is required."],
-        trim: true,
-        minlength: [8, "Password must be atleast 8 characters long."],
-        select: false
-    },
-
-    avatar: {
-        type: String
-    },
-
-    bio: {
-        type: String,
-        default: "Hi, welcome to my profile."
-    },
-
-    website: {
-        type: String,
-        trim: true
-    },
-
-    refreshToken: {
-        type: String,
-    },
-
-    resetToken: {
-        type: String
-    },
-
-    posts: {
-        type: Schema.Types.ObjectId,
-        ref: "Post"
-    },
-
-    saved: {
-        type: Schema.Types.ObjectId,
-        ref: "Post"
-    },
-
-    followers: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-    },
-
-    followings: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-    }
-}, { timestamps: true });
-
-export const User = mongoose.model("User", userSchema);
+export const UserModel = mongoose.model("User", userSchema);

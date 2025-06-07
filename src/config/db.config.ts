@@ -3,9 +3,9 @@ import { env } from "./env.config";
 
 // MongoDB connection options
 const options: mongoose.ConnectOptions = {
-  serverSelectionTimeoutMS: 5000,
+  serverSelectionTimeoutMS: 15000,
   socketTimeoutMS: 45000,
-  connectTimeoutMS: 10000,
+  connectTimeoutMS: 15000,
   dbName: env.DB_NAME || 'social_network_db', // Explicit database name
   autoIndex: true, // Build indexes
   maxPoolSize: 10, // Maintain up to 10 socket connections
