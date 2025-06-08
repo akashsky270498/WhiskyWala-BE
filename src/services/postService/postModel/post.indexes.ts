@@ -5,4 +5,6 @@ export default function addPostIndexes(schema: Schema) {
     schema.index({ likeCount: -1 });
     schema.index({ commentCount: -1 });
     schema.index({ isDeleted: 1 });
+    schema.index({ isDeleted: -1, likeCount: -1 });
+    schema.index({ savedBy: 1 });
 }

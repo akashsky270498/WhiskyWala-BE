@@ -6,19 +6,33 @@ export const commentSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User",
         required: true,
-        index: true
+        index: true,
     },
 
     comment: {
         type: String,
         required: true,
         trim: true,
-        maxlength: [POST_MODEL_CONSTANTS.MAX_COMMENT_LENGTH, "Comments must be less than 1000 chracters."]
+        maxlength: [POST_MODEL_CONSTANTS.MAX_COMMENT_LENGTH, "Comments must be less than 1000 chracters."],
     },
 
     createdAt: {
         type: Date,
-        default: Date.now
+        default: Date.now,
+    },
+
+    updatedAt: {
+        type: Date,
+    },
+
+    likes: [{
+        types: Schema.Types.ObjectId,
+        ref: "User",
+    }],
+
+    isDeleted: {
+        type: Boolean,
+        default: false,
     }
 });
 
@@ -30,8 +44,15 @@ const postSchema = new Schema({
         maxlength: [POST_MODEL_CONSTANTS.MAX_CAPTION_LENGTH, "Caption must be less then 2200 characters."],
     },
 
-    image: {
+    mediaUrl: {
         type: String,
+        trime: true,
+    },
+
+    mediaType: {
+        type: String,
+        enum: ["image", "video"],
+        default: "image",
     },
 
     postedBy: {
@@ -67,6 +88,13 @@ const postSchema = new Schema({
     },
 
     commentCount: {
+        type: Number,
+        default: 0,
+        min: 0,
+        index: true,
+    },
+
+    saveCount: {
         type: Number,
         default: 0,
         min: 0,
