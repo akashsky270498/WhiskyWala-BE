@@ -1,9 +1,16 @@
+// utils/asyncHandler.ts
 import { Request, Response, NextFunction, RequestHandler } from "express";
 
-
-const asyncHandler = (handler: (req: Request, res: Response, next: NextFunction) => Promise<any>): RequestHandler => {
+// Make it generic over a subtype of Request
+const asyncHandler = <
+  Req extends Request = Request,
+  Res extends Response = Response
+>(
+  handler: (req: Req, res: Res, next: NextFunction) => Promise<void>
+): RequestHandler => {
   return (req: Request, res: Response, next: NextFunction): void => {
-    handler(req, res, next).catch(next);
-  }
-}
-export { asyncHandler }
+    handler(req as Req, res as Res, next).catch(next);
+  };
+};
+
+export { asyncHandler };
