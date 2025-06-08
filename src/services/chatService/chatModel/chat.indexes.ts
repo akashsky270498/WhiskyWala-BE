@@ -1,7 +1,8 @@
 import { Schema } from "mongoose";
+import { MONGO_INDEX_DIRECTIONS } from "../../../utils/constants";
 
 export default function addChatIndexes(schema: Schema): void {
-    schema.index({ users: 1 });
-    schema.index({ latestMessage: 1 });
-    schema.index({ users: 1 }, { unique: true });
+    schema.index({ users: MONGO_INDEX_DIRECTIONS.ASC });
+    schema.index({ latestMessage: MONGO_INDEX_DIRECTIONS.ASC });
+    schema.index({ users: MONGO_INDEX_DIRECTIONS.ASC }, { unique: true });
 }

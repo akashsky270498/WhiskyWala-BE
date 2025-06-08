@@ -1,4 +1,5 @@
 import {Schema} from "mongoose";
+import { MSG_LENGTH } from "../../../utils/constants";
 
 export default function addMessageMethods(schema: Schema) {
     schema.methods.softDelete = async function() {
@@ -14,6 +15,6 @@ export default function addMessageMethods(schema: Schema) {
     };
 
     schema.methods.generatePreview = function() {
-        return this.content.length > 50 ? this.content.substring(0, 50) + "..." : this.content;
+        return this.content.length > MSG_LENGTH.MAX_PREVIEW ? this.content.substring(MSG_LENGTH.MIN, MSG_LENGTH.MAX_PREVIEW) + "..." : this.content;
     };
 }

@@ -2,9 +2,8 @@ import multer, { FileFilterCallback } from "multer";
 import path from "path";
 import { Request } from "express";
 import { v4 as uuidv4 } from "uuid";
+import { MULTER_CONSTANTS } from "../utils/constants";
 
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB per file
-const MAX_FILE_COUNT = 5;
 
 const allowedMimeTypes = [
   "image/jpeg",
@@ -43,7 +42,7 @@ export const upload = multer({
   storage,
   fileFilter,
   limits: {
-    fileSize: MAX_FILE_SIZE,
-    files: MAX_FILE_COUNT,
+    fileSize: MULTER_CONSTANTS.MAX_FILE_SIZE,
+    files: MULTER_CONSTANTS.MAX_FILE_COUNT,
   },
 });

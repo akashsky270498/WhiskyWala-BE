@@ -1,10 +1,11 @@
 import { Schema } from "mongoose";
+import { MONGO_INDEX_DIRECTIONS } from "../../../utils/constants";
 
 export default function addPostIndexes(schema: Schema) {
-    schema.index({ postedBy: 1, createdAt: -1 });
-    schema.index({ likeCount: -1 });
-    schema.index({ commentCount: -1 });
-    schema.index({ isDeleted: 1 });
-    schema.index({ isDeleted: -1, likeCount: -1 });
-    schema.index({ savedBy: 1 });
+    schema.index({ postedBy: MONGO_INDEX_DIRECTIONS.ASC, createdAt: MONGO_INDEX_DIRECTIONS.DESC });
+    schema.index({ likeCount: MONGO_INDEX_DIRECTIONS.DESC });
+    schema.index({ commentCount: MONGO_INDEX_DIRECTIONS.DESC });
+    schema.index({ isDeleted: MONGO_INDEX_DIRECTIONS.ASC });
+    schema.index({ isDeleted: MONGO_INDEX_DIRECTIONS.DESC, likeCount: MONGO_INDEX_DIRECTIONS.DESC });
+    schema.index({ savedBy: MONGO_INDEX_DIRECTIONS.ASC });
 }

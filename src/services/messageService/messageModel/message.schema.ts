@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import { MSG_LENGTH } from "../../../utils/constants";
 
 const messageSchema = new Schema({
 
@@ -20,7 +21,7 @@ const messageSchema = new Schema({
         type: String,
         required: true,
         trim: true,
-        maxlength: 5000,
+        maxlength: MSG_LENGTH.MAX,
     },
 
     isDeleted: {

@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import crypto from "crypto";
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { env } from "../../../config/env.config";
+import { DEFAULT_VALUES } from "../../../utils/constants";
 
 export async function comparePassword(this: IUser, enteredPassword: string): Promise<boolean> {
     return await bcrypt.compare(enteredPassword, this.password);
@@ -47,14 +48,14 @@ export function generateRefreshTokenSync(this: IUser): string {
 }
 
 export async function generateResetPasswordToken(this: IUser): Promise<string> {
-    const resetToken = crypto.randomBytes(20).toString("hex");
+    const resetToken = crypto.randomBytes(DEFAULT_VALUES.TWENTY).toString("hex");
     this.resetToken = crypto.createHash("sha256").update(resetToken).digest("hex");
     return resetToken;
 }
 
 export function canViewProfileOf(this: IUser, targetUser: IUser): boolean {
     if (!targetUser.isPrivate) return true;
-    return targetUser.followers.some( f => f.toString() === this._id.toString());
+    return targetUser.followers.some(f => f.toString() === this._id.toString());
 }
 
 export async function toggleFollow(this: IUser, targetUser: IUser): Promise<void> {

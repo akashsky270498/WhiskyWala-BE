@@ -1,5 +1,6 @@
 import { Schema } from "mongoose";
 import { POST_MODEL_CONSTANTS } from "../../../utils/constants";
+import { DEFAULT_VALUES } from "../../../utils/constants";
 
 export const commentSchema = new Schema({
     user: {
@@ -82,22 +83,22 @@ const postSchema = new Schema({
 
     likeCount: {
         type: Number,
-        default: 0,
-        min: 0,
+        default: DEFAULT_VALUES.ZERO,
+        min: DEFAULT_VALUES.MIN,
         index: true,
     },
 
     commentCount: {
         type: Number,
-        default: 0,
-        min: 0,
+        default: DEFAULT_VALUES.ZERO,
+        min: DEFAULT_VALUES.MIN,
         index: true,
     },
 
     saveCount: {
         type: Number,
-        default: 0,
-        min: 0,
+        default: DEFAULT_VALUES.ZERO,
+        min: DEFAULT_VALUES.MIN,
         index: true,
     },
 

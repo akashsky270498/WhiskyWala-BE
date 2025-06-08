@@ -5,7 +5,8 @@ export const HTTP_STATUS_CODES = {
     TIMEOUT: 408,
     RATE_LIMIT: 429,
     INTERNAL_SERVER_ERROR: 500,
-    UNEXPECTED_ERROR: 500
+    UNEXPECTED_ERROR: 500,
+    SUCCESS: 200,
 }
 
 export const CORS_OPTIONS = {
@@ -35,3 +36,29 @@ export const POST_MODEL_CONSTANTS = {
     MAX_COMMENT_LENGTH: 1000,
     MAX_CAPTION_LENGTH: 2200
 }
+
+export const MULTER_CONSTANTS = {
+    MAX_FILE_SIZE: 10 * 1024 * 1024,// 10MB per file
+    MAX_FILE_COUNT: 5,
+}
+
+export const MSG_LENGTH = {
+    MAX_PREVIEW: 50,
+    MIN: 0,
+    MAX: 5000
+}
+
+export const DEFAULT_VALUES = {
+    ZERO: 0,
+    MIN: 0,
+    FIVE: 5,
+    TWENTY: 20,
+    TEN: 10,
+    THREE:3,
+    EIGHT: 8,
+}
+
+export const MONGO_INDEX_DIRECTIONS = {
+    ASC: 1,
+    DESC: -1,
+  } as const;

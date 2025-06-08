@@ -1,10 +1,11 @@
 import { Schema, UpdateQuery } from "mongoose";
 import { IPost } from "../postInterface/post.interface";
+import { DEFAULT_VALUES } from "../../../utils/constants";
 
 export default function addPostMiddleware(schema: Schema) {
     schema.pre<IPost>("save", function (next) {
-        this.likeCount = this.likedBy?.length || 0;
-        this.commentCount = this.comments?.length || 0;
+        this.likeCount = this.likedBy?.length || DEFAULT_VALUES.ZERO;
+        this.commentCount = this.comments?.length || DEFAULT_VALUES.ZERO;
         next();
     });
 
@@ -26,7 +27,7 @@ export default function addPostMiddleware(schema: Schema) {
                 set.commentCount = set.comments.length;
             }
 
-            if (Object.keys(set).length > 0) {
+            if (Object.keys(set).length > DEFAULT_VALUES.ZERO) {
                 update.$set = set;
             }
 

@@ -1,4 +1,5 @@
 import { Schema } from "mongoose";
+import { DEFAULT_VALUES } from "../../../utils/constants";
 
 const userSchema = new Schema({
 
@@ -23,14 +24,14 @@ const userSchema = new Schema({
         trim: true,
         unique: true,
         lowercase: true,
-        minlength: [3, "Username must be atleast 3 characters long."]
+        minlength: [DEFAULT_VALUES.THREE, "Username must be atleast 3 characters long."]
     },
 
     password: {
         type: String,
         required: [true, "Password is required."],
         trim: true,
-        minlength: [8, "Password must be atleast 8 characters long."],
+        minlength: [DEFAULT_VALUES.EIGHT, "Password must be atleast 8 characters long."],
         select: false
     },
 
