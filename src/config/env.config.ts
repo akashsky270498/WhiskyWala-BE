@@ -26,6 +26,12 @@ const envSchema = z.object({
     REFRESH_TOKEN_SECRET: z.string().min(1, "JWT_SECRET is required."),
 
     REFRESH_TOKEN_EXPIRE: z.string().default("30d"),
+
+    CLOUDINARY_CLOUD_NAME: z.string(),
+
+    CLOUDINARY_API_KEY: z.string(),
+    
+    CLOUDINARY_API_SECRET: z.string(),
 });
 
 export type EnvConfig = z.infer<typeof envSchema>;
