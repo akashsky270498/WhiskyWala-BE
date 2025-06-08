@@ -8,6 +8,6 @@ addChatVirtuals(chatSchema);
 addChatMiddleware(chatSchema);
 addChatIndexes(chatSchema);
 
-const ChatModel = mongoose.model("Chat", chatSchema);
+const ChatModel: Model<IChat> = mongoose.model<IChat>("Chat", chatSchema);
 
 export default ChatModel;

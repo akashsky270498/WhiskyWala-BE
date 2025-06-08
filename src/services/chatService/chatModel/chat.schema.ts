@@ -1,21 +1,31 @@
-import { Schema } from "mongoose";
+import { Schema, Types } from "mongoose";
 
 const chatSchema = new Schema({
-
-    users: [{
+  users: {
+    type: [
+      {
         type: Schema.Types.ObjectId,
         ref: "User",
-        required: true,
-        index: true
-    }],
-
-    latestMessage: {
-        type: Schema.Types.ObjectId,
-        ref: "Message",
-        required: true,
-        index: true,
-        default: null
+        required: true
+      }
+    ],
+    validate: {
+      validator: (val: Types.ObjectId[]): boolean => val.length === 2,
+      message: "Chat must have exactly two users."
     },
-}, { timestamps: true, versionKey: false });
+    index: true,
+    required: true
+  },
+
+  latestMessage: {
+    type: Schema.Types.ObjectId,
+    ref: "Message",
+    default: null,
+    index: true
+  }
+}, {
+  timestamps: true,
+  versionKey: false
+});
 
 export default chatSchema;
