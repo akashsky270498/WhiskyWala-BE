@@ -1,7 +1,7 @@
 import { IApiResponse } from "./interfaces/apiResponseInterface";
 import { HTTP_STATUS_CODES } from "./constants";
 
-export class ApiResponse <T = any> implements IApiResponse {
+export class ApiResponse <T> implements IApiResponse {
   statusCode: number;
   success: boolean;
   message: string;

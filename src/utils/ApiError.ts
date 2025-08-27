@@ -1,16 +1,16 @@
 import { FieldError, IApiError } from "./interfaces/apiErrorInterface";
 
-export class ApiError extends Error implements IApiError {
+export class ApiError<T = unknown> extends Error implements IApiError {
   statusCode: number;
   success: boolean;
   errors: FieldError[];
-  data: any | null;
+  data: T | null;
 
   constructor(
     statusCode: number,
     message = "Something went wrong",
     errors: FieldError[] = [],
-    data: any | null = null,
+    data: T | null = null,
   ) {
     super(message);
     this.name = this.constructor.name;

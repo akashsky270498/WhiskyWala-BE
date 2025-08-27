@@ -8,20 +8,20 @@ interface Metadata {
     totalPages?: number;
 }
 
-interface SuccessResponseParams {
+interface SuccessResponseParams<T> {
     message: string;
-    data?: any[];
+    data?: T[];
     meta?: Metadata;
 }
 
-interface FailureResponseParams {
+interface FailureResponseParams<E> {
     message: string;
-    errors?: any[];
+    errors?: E[];
     meta?: Metadata
 }
 
 const RESPONSE = {
-    SuccessResponse: (res: Response, status = 200, payload: SuccessResponseParams) => {
+    SuccessResponse: <T> (res: Response, status = 200, payload: SuccessResponseParams<T>) => {
         return res.status(status).json({
             success: true,
             statusCode: status,
@@ -31,7 +31,7 @@ const RESPONSE = {
         })
     },
 
-    FailureResponse: (res: Response, status = 500, payload: FailureResponseParams) => {
+    FailureResponse: <E> (res: Response, status = 500, payload: FailureResponseParams<E>) => {
         return res.status(status).json({
             success: false,
             statusCode: status,
