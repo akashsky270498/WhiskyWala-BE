@@ -1,6 +1,6 @@
 import { registerUserService } from '../userService/user.service';
 import { Request, Response } from 'express';
-import { RESPONSE } from '../../../utils/response';
+import RESPONSE from '../../../utils/response';
 import { asyncHandler } from '../../../utils/asyncHandler';
 
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
@@ -14,11 +14,11 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   }
 
   const result = await registerUserService({
-    name,
+    fullName,
     email,
     username,
     password,
-    avatarPath,
+    avatar,
   });
 
   if (result.error) {
@@ -29,6 +29,8 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
 
   return RESPONSE.SuccessResponse(res, result.status, {
     message: result.message,
-    data: result.data,
+    data: [result.data],
   });
 });
+
+export { registerUser };
