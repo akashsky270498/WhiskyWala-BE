@@ -11,6 +11,7 @@ import compression from "compression";
 import { staticFileConfig } from "./config/static.config";
 import { httpLogger, logger } from "./utils/logger"
 import { env } from "./config/env.config";
+import userRouter from "./services/userService/userRoute/user.route";
 
 const app = express();
 
@@ -38,6 +39,8 @@ app.use(httpLogger);
 // rate limiter
 app.use(apiLimiter);
 // authRouter(authLimiter);
+
+app.use("/api/v1/users", userRouter);
 
 //404 handler for unmatched routes
 app.all('*', (req, res, next) => {

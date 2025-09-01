@@ -3,9 +3,9 @@ import { DEFAULT_VALUES } from "../../../utils/constants";
 
 const userSchema = new Schema({
 
-    name: {
+    fullName: {
         type: String,
-        required: [true, "Name is required."],
+        required: [true, "Full Name is required."],
         trim: true,
         index: true
     },

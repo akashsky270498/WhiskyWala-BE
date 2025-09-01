@@ -1,40 +1,42 @@
-import multer, { FileFilterCallback } from "multer";
-import path from "path";
-import { Request } from "express";
-import { v4 as uuidv4 } from "uuid";
-import { MULTER_CONSTANTS } from "../utils/constants";
-
+import multer, { FileFilterCallback } from 'multer';
+import path from 'path';
+import fs from 'fs';
+import { Request } from 'express';
+import { v4 as uuidv4 } from 'uuid';
+import { MULTER_CONSTANTS } from '../utils/constants';
 
 const allowedMimeTypes = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/gif",
-  "video/mp4",
-  "video/quicktime", // .mov
-  "video/x-msvideo", // .avi
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/gif',
+  'video/mp4',
+  'video/quicktime', // .mov
+  'video/x-msvideo', // .avi
 ];
+
+const uploadPath = path.join(__dirname, '../public/uploads');
+
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: function (_req, _file, cb) {
-    cb(null, "./public/temp");
+    cb(null, uploadPath);
   },
   filename: function (_req, file, cb) {
     const ext = path.extname(file.originalname);
     const uniqueName = `${uuidv4()}${ext}`;
     cb(null, uniqueName);
-  }
+  },
 });
 
-const fileFilter = (
-  _req: Request,
-  file: Express.Multer.File,
-  cb: FileFilterCallback
-): void => {
+const fileFilter = (_req: Request, file: Express.Multer.File, cb: FileFilterCallback): void => {
   if (allowedMimeTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Only images & videos are allowed."));
+    cb(new Error('Only images & videos are allowed.'));
   }
 };
 

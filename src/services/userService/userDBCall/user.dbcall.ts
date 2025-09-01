@@ -7,7 +7,7 @@ export const checkExistingUser = async (email: string, username: string) => {
   return existingUser;
 };
 
-export const createNewUser = async (userData: any) => {
+export const createNewUser = async (userData: unknown) => {
   const createUser = await UserModel.create(userData);
   return createUser;
 };
