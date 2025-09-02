@@ -1,30 +1,57 @@
 import { ApolloServer } from '@apollo/server';
-import { expressMiddleware } from "@apollo/server/express4";
-import express, { Application } from 'express';
+import { expressMiddleware } from '@as-integrations/express4';
+import { Express } from 'express';
 import { GraphQLFormattedError } from 'graphql';
 import bodyParser from 'body-parser';
-import cors from "cors";
-import { typeDefs } from '';
-import { resolvers } from '';
+import cors from 'cors';
+import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default'; // ✅ add this
+import { userTypeDef } from '../services/userService/userTypedefs/user.typedefs';
+import { userResolver } from '../services/userService/userResolvers/user.resolvers';
 
-export const createGraphQLServer = async () => {
-  const app: Application = express();
-
+export const createGraphQLServer = async (app: Express) => {
   const server = new ApolloServer({
-    typeDefs: typeDefs,
-    resolvers: resolvers,
+    typeDefs: [userTypeDef],
+    resolvers: [userResolver],
+    introspection: true,
+    plugins: [
+      // ✅ This enables the embedded local Sandbox UI
+      ApolloServerPluginLandingPageLocalDefault({ embed: true }),
+    ],
     formatError: (formattedError: GraphQLFormattedError) => {
       return {
         message: formattedError.message,
         success: false,
-        statusCode: formattedError.extensions?.code === 'BAD_USER_INPUT' ? 400 : 500,
+        statusCode:
+          formattedError.extensions?.code === 'BAD_USER_INPUT' ? 400 : 500,
         errors: [],
       };
     },
   });
 
   await server.start();
- app.use('/graphql', cors<cors.CorsRequest>(), bodyParser.json(), expressMiddleware(server));
+
+  const graphqlCorsOptions = {
+    origin: [
+      'http://localhost:3000',
+      'http://localhost:7555',
+      'https://studio.apollographql.com',
+      'https://sandbox.apollo.dev'
+    ],
+    credentials: true,
+  };
+
+  app.use(
+    '/graphql',
+    cors(graphqlCorsOptions),
+    bodyParser.json({ limit: '50mb' }),
+    expressMiddleware(server, {
+      context: async ({ req }) => {
+        return {
+          headers: req.headers,
+        };
+      },
+    }),
+  );
 
   return app;
 };

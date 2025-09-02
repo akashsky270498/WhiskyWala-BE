@@ -1,5 +1,6 @@
 import { checkExistingUser, createNewUser, sanitizeUser } from '../userDBCall/user.dbcall';
 import { uploadOnCloudinary } from '../../../utils/cloundinary';
+import { UserModel } from '../userModel/user.model';
 
 interface RegisterUser {
   fullName: string;
@@ -43,4 +44,24 @@ export const registerUserService = async (input: RegisterUser) => {
   }
 
   return { error: false, status: 201, message: 'User registered successfully.', data: createdUser };
+};
+
+export const getAllUsersService = async () => {
+  try {
+    const users = await UserModel.find();
+
+    return {
+      error: false,
+      status: 200,
+      message: 'Users fetched successfully',
+      data: users,
+    };
+  } catch (error) {
+    return {
+      error: true,
+      status: 500,
+      message: 'Failed to fetch users',
+      data: [],
+    };
+  }
 };
