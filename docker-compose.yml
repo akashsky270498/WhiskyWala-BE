@@ -10,6 +10,25 @@ services:
     volumes: 
       - mongo_data:/data/db
 
+  redis:
+    image: redis:7
+    container_name: redis_cache
+    restart: always
+    ports:
+      - "6379:6379"  #Redis accessible on localhost:6379
+    volumes:
+      - redis_data:/data
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: redis_gui
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8081:8081"  #Redis commander accessible on localhost:8081
+    depends_on: redis
+
   backend:
     build: .
     container_name: node_app
@@ -23,6 +42,8 @@ services:
       - /app/node_modules  #keep container node_modules seprate
     depends_on:
       - mongo
+      - redis
 
 volumes:
   mongo_data:
+  redis_data:
