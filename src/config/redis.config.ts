@@ -1,8 +1,10 @@
 import Redis from 'ioredis';
 
+const port = parseInt(process.env.REDIS_PORT || '6379', 10);
+
 const redis = new Redis({
   host: process.env.REDIS_HOST || 'redis',
-  port: Number(process.env.REDIS_PORT) || 6379,
+  port,
 });
 
 redis.on('connect', () => {

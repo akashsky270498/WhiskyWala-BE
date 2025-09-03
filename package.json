@@ -51,6 +51,7 @@
     "express-rate-limit": "^7.5.0",
     "fs": "^0.0.1-security",
     "graphql": "^16.11.0",
+    "graphql-redis-subscriptions": "^2.7.0",
     "graphql-tag": "^2.12.6",
     "helmet": "^7.2.0",
     "ioredis": "^5.7.0",
