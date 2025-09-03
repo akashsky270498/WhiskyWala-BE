@@ -1,0 +1,28 @@
+verion: "3.9"
+
+services:
+  mongo:
+    image: mongo:7
+    container_name: mongo_db
+    restart: always
+    ports:
+      - "27017:27017"  #MongoDB accessible on localhost:27017
+    volumes: 
+      - mongo_data:/data/db
+
+  backend:
+    build: .
+    container_name: node_app
+    restart: always
+    ports: 
+      - "7555:7555"  #Backend accessible on localhost:7555
+    env_file:
+      - .env  #Load environment variables
+    volumes:
+      - .:/app  #Mount local code for hot reload
+      - /app/node_modules  #keep container node_modules seprate
+    depends_on:
+      - mongo
+
+volumes:
+  mongo_data:
