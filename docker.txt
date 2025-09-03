@@ -1,0 +1,88 @@
+Q:1 What is Docker?
+Ans: Docker is a tool that let you package your app and everything that needs to be into a small unit called container, So that it can be run everywhere & anywhere  fastly, safely & consistently.
+
+# docker --version
+# docker compose version
+=======================================================================================================================================
+Q:2 What is the differenece between docker image & docker container?
+Ans: 
+- Image: Image is like a Blueprint (read-only, like a class). => # docker images
+- Container: Container is an Instance(copy) of image (container is mutable like an object). => # docker ps
+
+=======================================================================================================================================
+Q:3 What is Docker file?
+Ans: Docker file is a script with instructions to build an image.
+# Use Node 20 Alpine
+FROM node:20-alpine
+
+# Set Working Directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json
+COPY package*.json ./
+
+# Install Dependencies
+RUN npm install 
+
+#Cop Project Files
+COPY . .
+
+#Expose Backend Port
+EXPOSE 7555
+
+#Start Server With Hot-Reload
+CMD ["npx", "ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"]
+=======================================================================================================================================
+Q:4 What is Docker Compose?
+Ans: Docker Compose is a tool to manage multi container applications using docker-compose.yml
+# docker compose up --build
+# docker compose down
+# docker compose logs
+=======================================================================================================================================
+Q:5 How to see running conatiners?
+Ans: 
+# docker ps (all running)
+# docker ps -a (all running & stopped)
+=======================================================================================================================================
+Q:6 How do you run the container interactively?
+Ans: docker run -it ubuntu bash
+=======================================================================================================================================
+Q:7 How to access a running container shell?
+Ans: docker run -it <container_id> sh
+=======================================================================================================================================
+Q:8 How do you check container logs?
+Ans: 
+# docker logs <container_id>
+# docker logs -f <container_id> // follow logs
+=======================================================================================================================================
+Q:9 How do you start, stop & remove the container?
+Ans:
+# docker stop <container_id>
+# docker start <container_id>
+# docker rm <container_id>
+=======================================================================================================================================
+Q:10 What is Docker volume?
+Ans: Docker Volumes are persistent storage for containers. Containers are temporary, but volumes keeps the data safe.
+# docker volume ls 
+# docker volume inspect <volume_name>
+=======================================================================================================================================
+Q:11 What is Docker Network?
+Ans: Docker Network is a way for containers to talk to each other.
+# docker network ls
+# docker network inspect bridge
+=======================================================================================================================================
+Q:12 How to you remove unused stuff?
+Ans: docker prune -a (cleans images, containers, networks etc).
+=======================================================================================================================================
+Q:13 What is the difference COPY & ADD in Dockerfile?
+Ans:
+- COPY: copies files/folders.
+- ADD: same as COPY but also supports remote URLs & archives.
+=======================================================================================================================================
+Q:14 What is the difference between Docker & VM?
+Ans:
+- Docker: Shares host OS kernel [leihghtweight, faster].
+- VMs: Runs a full OS with its own kernel [heavy].
+=======================================================================================================================================
+Q:15 How do you check detailed info about a container?
+Ans: docker inspect <container_id>
