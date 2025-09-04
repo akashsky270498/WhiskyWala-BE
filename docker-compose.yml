@@ -27,7 +27,8 @@ services:
       - REDIS_HOSTS=local:redis:6379
     ports:
       - "8081:8081"  #Redis commander accessible on localhost:8081
-    depends_on: redis
+    depends_on: 
+      - redis
 
   backend:
     build: .
@@ -36,10 +37,12 @@ services:
     ports: 
       - "7555:7555"  #Backend accessible on localhost:7555
     env_file:
-      - .env  #Load environment variables
+      - .env.docker  #Load environment variables
     volumes:
       - .:/app  #Mount local code for hot reload
       - /app/node_modules  #keep container node_modules seprate
+    working_dir: /app
+    command: npm run dev
     depends_on:
       - mongo
       - redis

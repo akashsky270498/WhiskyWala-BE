@@ -48,7 +48,8 @@ export const registerUserService = async (input: RegisterUser) => {
 
 export const getAllUsersService = async () => {
   try {
-    const users = await UserModel.find();
+    const users = await UserModel.find().lean({ virtuals: true });
+    console.log("users: ", users)
 
     return {
       error: false,

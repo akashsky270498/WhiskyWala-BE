@@ -28,4 +28,11 @@ userSchema.statics.searchUsers = async function (query: string) {
     }).select("name username avater");
 };
 
+userSchema.virtual("id").get(function () {
+  return this._id.toHexString();
+});
+
+userSchema.set("toJSON", { virtuals: true });
+userSchema.set("toObject", { virtuals: true });
+
 export const UserModel = mongoose.model("User", userSchema);
