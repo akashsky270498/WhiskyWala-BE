@@ -43,4 +43,8 @@ export const userResolver = {
       return response;
     },
   },
+   User: {
+    id: (parent: { id?: string; _id: string }) =>
+      parent.id || parent._id.toString(),
+  },
 };

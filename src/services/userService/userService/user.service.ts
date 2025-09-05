@@ -48,14 +48,17 @@ export const registerUserService = async (input: RegisterUser) => {
 
 export const getAllUsersService = async () => {
   try {
-    const users = await UserModel.find().lean({ virtuals: true });
+    const users = await UserModel.find();
     console.log("users: ", users)
+    const usersWithVirtuals = users.map((u) =>
+      u.toObject({ virtuals: true })
+    );
 
     return {
       error: false,
       status: 200,
       message: 'Users fetched successfully',
-      data: users,
+      data: usersWithVirtuals,
     };
   } catch (error) {
     return {
