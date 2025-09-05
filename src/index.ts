@@ -11,8 +11,9 @@ import compression from "compression";
 import { staticFileConfig } from "./config/static.config";
 import { httpLogger, logger } from "./utils/logger";
 import { env } from "./config/env.config";
-import userRouter from "./services/userService/userRoute/user.route";
 import { createGraphQLServer } from "./graphQL/graphQL.server";
+import userRouter from "./services/userService/userRoute/user.route";
+import uploadRouter from "./services/uploadService/uploadRoute/upload.route";
 
 const app = express();
 
@@ -46,6 +47,7 @@ app.use(apiLimiter);
 
 // REST routes
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1", uploadRouter);
 
 // Logger test
 logger.info("Server is starting");

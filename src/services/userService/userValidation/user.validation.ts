@@ -45,4 +45,12 @@ export const registerUserValidation = Joi.object({
       "string.pattern.base":
         "Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character",
     }),
+
+     avatarUrl: Joi.string()
+    .uri()
+    .required()
+    .messages({
+      "string.empty": "Avatar URL is required",
+      "string.uri": "Avatar URL must be a valid URI",
+    }),
 });

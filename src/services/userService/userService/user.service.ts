@@ -1,5 +1,5 @@
 import { checkExistingUser, createNewUser, sanitizeUser } from '../userDBCall/user.dbcall';
-import { uploadOnCloudinary } from '../../../utils/cloundinary';
+// import { uploadOnCloudinary } from '../../../utils/cloundinary';
 import { UserModel } from '../userModel/user.model';
 
 interface RegisterUser {
@@ -23,18 +23,18 @@ export const registerUserService = async (input: RegisterUser) => {
     };
   }
 
-  const uploadAvatar = await uploadOnCloudinary(avatar);
+  // const uploadAvatar = await uploadOnCloudinary(avatar);
 
-  if (!uploadAvatar) {
-    return { error: true, status: 500, message: 'Failed to upload avatar.' };
-  }
+  // if (!uploadAvatar) {
+  //   return { error: true, status: 500, message: 'Failed to upload avatar.' };
+  // }
 
   const user = await createNewUser({
     fullName,
     email,
     username,
     password,
-    avatar: uploadAvatar?.url,
+    avatar ,
   });
 
   const createdUser = await sanitizeUser(user._id.toString());
@@ -49,16 +49,15 @@ export const registerUserService = async (input: RegisterUser) => {
 export const getAllUsersService = async () => {
   try {
     const users = await UserModel.find();
-    console.log("users: ", users)
-    const usersWithVirtuals = users.map((u) =>
-      u.toObject({ virtuals: true })
-    );
+    // const usersWithVirtuals = users.map((u) =>
+    //   u.toObject({ virtuals: true })
+    // );
 
     return {
       error: false,
       status: 200,
       message: 'Users fetched successfully',
-      data: usersWithVirtuals,
+      data: users,
     };
   } catch (error) {
     return {

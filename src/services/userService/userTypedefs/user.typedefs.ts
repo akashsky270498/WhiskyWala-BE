@@ -1,4 +1,4 @@
-import { gql } from "graphql-tag";
+import { gql } from 'graphql-tag';
 
 export const userTypeDef = gql`
   type User {
@@ -6,6 +6,14 @@ export const userTypeDef = gql`
     fullName: String!
     email: String!
     username: String!
+    avatar: String
+    bio: String
+    website: String
+    isPrivate: Boolean
+    followers: [ID]
+    followings: [ID]
+    posts: [ID]
+    saved: [ID]
   }
 
   type Metadata {

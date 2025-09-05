@@ -5,12 +5,12 @@ import { asyncHandler } from '../../../utils/asyncHandler';
 import redis from "../../../config/redis.config";
 
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
-  const { fullName, email, username, password } = req.body;
-  console.log("hdsdhsddadsfghgfdsasd")
-  const avatar = req.file?.path;
-  if (!avatar) {
+  const { fullName, email, username, password, avatarUrl } = req.body;
+  // const avatar = req.file?.path;
+
+  if (!avatarUrl) {
     return RESPONSE.FailureResponse(res, 400, {
-      message: 'Avatar is required.',
+      message: 'Avatar URL is required. Upload file first.',
     });
   }
 
@@ -19,7 +19,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     email,
     username,
     password,
-    avatar,
+    avatar:avatarUrl,
   });
 
   if (result.error) {

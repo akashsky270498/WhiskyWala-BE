@@ -5,3 +5,5 @@ import { DEFAULT_VALUES } from "../../../utils/constants";
 const router = Router();
 
 router.post("/upload", upload.array("files", DEFAULT_VALUES.FIVE), uploadFilesController);
+
+export default router;
