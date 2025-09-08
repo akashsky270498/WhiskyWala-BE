@@ -7,17 +7,20 @@ WORKDIR /app
 # Copy package.json and package-lock.json
 COPY package*.json ./
 
-# Install Dependencies
-RUN npm install 
+# Install all dependencies (including dev for ts-node-dev)
+RUN npm install
 
-#Cop Project Files
+# Copy project files
 COPY . .
 
 # Build TypeScript -> dist/
 RUN npm run build
 
-#Expose Backend Port
+# Expose PORT from Render
 EXPOSE 7555
 
-#Start Server With Hot-Reload
-CMD ["npx", "ts-node-dev", "--respawn", "--transpile-only", "src/index.ts"]
+# Use environment variable PORT provided by Render
+ENV PORT=7555
+
+# Start server using compiled dist for production
+CMD ["node", "dist/index.js"]
