@@ -1,21 +1,12 @@
-version: "3.9"
+
 
 services:
-  mongo:
-    image: mongo:7
-    container_name: mongo_db
-    restart: always
-    ports:
-      - "27017:27017"  #MongoDB accessible on localhost:27017
-    volumes: 
-      - mongo_data:/data/db
-
   redis:
     image: redis:7
     container_name: redis_cache
     restart: always
     ports:
-      - "6379:6379"  #Redis accessible on localhost:6379
+      - "6379:6379"
     volumes:
       - redis_data:/data
 
@@ -26,7 +17,7 @@ services:
     environment:
       - REDIS_HOSTS=local:redis:6379
     ports:
-      - "8081:8081"  #Redis commander accessible on localhost:8081
+      - "8081:8081"
     depends_on: 
       - redis
 
@@ -35,18 +26,16 @@ services:
     container_name: node_app
     restart: always
     ports: 
-      - "7555:7555"  #Backend accessible on localhost:7555
+      - "7555:7555"
     env_file:
-      - .env.docker  #Load environment variables
+      - .env
     volumes:
-      - .:/app  #Mount local code for hot reload
-      - /app/node_modules  #keep container node_modules seprate
+      - .:/app
+      - /app/node_modules
     working_dir: /app
     command: npm run dev
     depends_on:
-      - mongo
       - redis
 
 volumes:
-  mongo_data:
   redis_data:

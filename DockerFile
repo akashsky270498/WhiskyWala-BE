@@ -13,6 +13,9 @@ RUN npm install
 #Cop Project Files
 COPY . .
 
+# Build TypeScript -> dist/
+RUN npm run build
+
 #Expose Backend Port
 EXPOSE 7555
 
