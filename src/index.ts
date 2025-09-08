@@ -1,19 +1,19 @@
 import express from 'express';
-import { connectDB } from './src/config/db.config';
+import { connectDB } from './config/db.config';
 import dotenv from 'dotenv';
 dotenv.config();
 import helmet from 'helmet';
 import cors from 'cors';
-import { corsOptions } from './src/utils/corsOptions';
-import { apiLimiter } from './src/middlewares/rateLimiter.middleware';
-import { errorHandler } from './src/middlewares/error.middleware';
+import { corsOptions } from './utils/corsOptions';
+import { apiLimiter } from './middlewares/rateLimiter.middleware';
+import { errorHandler } from './middlewares/error.middleware';
 import compression from 'compression';
-import { staticFileConfig } from './src/config/static.config';
-import { httpLogger, logger } from './src/utils/logger';
-import { env } from './src/config/env.config';
-import { createGraphQLServer } from './src/graphQL/graphQL.server';
-import userRouter from './src/services/userService/userRoute/user.route';
-import uploadRouter from './src/services/uploadService/uploadRoute/upload.route';
+import { staticFileConfig } from './config/static.config';
+import { httpLogger, logger } from './utils/logger';
+import { env } from './config/env.config';
+import { createGraphQLServer } from './graphQL/graphQL.server';
+import userRouter from './services/userService/userRoute/user.route';
+import uploadRouter from './services/uploadService/uploadRoute/upload.route';
 
 const app = express();
 
