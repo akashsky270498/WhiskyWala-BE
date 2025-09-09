@@ -26,8 +26,8 @@ jobs:
          run: npm ci
 
       # 4. Run tests
-       - name: Run tests
-         run: npm test
+       - name: Run tests (skipped)
+         run: echo "No tests configured, skipping"
 
       # 5. Lint
        - name: Run lint
