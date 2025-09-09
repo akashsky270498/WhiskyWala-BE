@@ -9,6 +9,7 @@
     "build": "tsc",
     "lint": "eslint . --ext .ts",
     "test": "cross-env NODE_ENV=test dotenv -e .env.test -- jest --detectOpenHandles --forceExit",
+    "test:coverage": "cross-env NODE_ENV=test dotenv -e .env.test -- jest --coverage",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\""
   },
