@@ -111,4 +111,11 @@ process.on('unhandledRejection', (reason, promise) => {
   process.exit(1);
 });
 
-startServer();
+
+export { app };
+
+// startServer();
+// start server only if file is run directly
+if (require.main === module) {
+  startServer();
+}
