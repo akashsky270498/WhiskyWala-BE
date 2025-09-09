@@ -49,6 +49,18 @@ app.use(apiLimiter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1', uploadRouter);
 
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: '🚀 Backend is running!',
+    routes: {
+      rest: '/api/v1',
+      graphql: '/graphql',
+    },
+  });
+});
+
+
 // Logger test
 logger.info('Server is starting');
 logger.error('This is an error message');
