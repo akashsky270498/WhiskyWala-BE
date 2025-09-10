@@ -1,9 +1,11 @@
-import { registerUserService } from '../userService/user.service';
+import { registerUserService, loginUserService } from '../userService/user.service';
 import { Request, Response } from 'express';
 import RESPONSE from '../../../utils/response';
 import { asyncHandler } from '../../../utils/asyncHandler';
-import redis from "../../../config/redis.config";
+import redis from '../../../config/redis.config';
+import { env } from '../../../config/env.config';
 
+// @Register User Controller
 const registerUser = asyncHandler(async (req: Request, res: Response) => {
   const { fullName, email, username, password, avatarUrl } = req.body;
   // const avatar = req.file?.path;
@@ -19,7 +21,7 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
     email,
     username,
     password,
-    avatar:avatarUrl,
+    avatar: avatarUrl,
   });
 
   if (result.error) {
@@ -39,4 +41,32 @@ const registerUser = asyncHandler(async (req: Request, res: Response) => {
   });
 });
 
-export { registerUser };
+// @Login User Controller
+const loginUser = asyncHandler(async (req: Request, res: Response) => {
+  const { emailOrUsername, password } = req.body;
+  console.log(emailOrUsername, password)
+
+  const result = await loginUserService({ emailOrUsername, password });
+
+  if (result.error) {
+    return RESPONSE.FailureResponse(res, result.status, {
+      message: result.message,
+    });
+  }
+
+  const { user, accessToken, refreshToken } = result.data;
+
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: env.NODE_ENV === 'production',
+    sameSite: 'strict',
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+  });
+
+  return RESPONSE.SuccessResponse(res, result.status, {
+    message: result.message,
+    data: [{ user, accessToken }],
+  });
+});
+
+export { registerUser, loginUser };

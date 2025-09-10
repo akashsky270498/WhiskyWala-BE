@@ -70,7 +70,7 @@ const startServer = async () => {
   try {
     await connectDB();
 
-    // ✅ Setup GraphQL BEFORE 404 handler
+    //Setup GraphQL BEFORE 404 handler
     await createGraphQLServer(app);
 
     // 404 handler for unmatched routes (after REST + GraphQL are mounted)
