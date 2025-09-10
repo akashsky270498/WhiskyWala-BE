@@ -130,3 +130,6 @@ export const loginUserService = async (
     data: { user: safeUserData, accessToken, refreshToken },
   };
 };
+
+
+// @Logout User Service
